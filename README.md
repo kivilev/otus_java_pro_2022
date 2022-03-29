@@ -1,8 +1,5 @@
-# otus_java_pro_2022
-Repo for course Java Developer Professional
-
 # Java Developer. Professional 2022
-This repository contains files for otus-course.
+This repository contains files for otus education course.
   
 ### Author
 I'm Kivilev Denis.  
