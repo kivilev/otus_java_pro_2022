@@ -1,5 +1,7 @@
 # Java Developer. Professional 2022
 This repository contains files for otus education course.
+
+Education group: 2022-03
   
 ### Author
 I'm Kivilev Denis.  
