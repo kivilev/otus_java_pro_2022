@@ -57,8 +57,8 @@ public class ReflectionHelper {
         return Arrays.stream(args).map(Object::getClass).toArray(Class<?>[]::new);
     }
 
-    public static Stream<Method> getMethodStreamByAnnotation(Class<?> testClass, Class<? extends Annotation> annotationClass) {
-        return Arrays.stream(testClass.getMethods())
+    public static Stream<Method> getMethodStreamByAnnotation(Class<?> type, Class<? extends Annotation> annotationClass) {
+        return Arrays.stream(type.getMethods())
                 .filter(it -> it.isAnnotationPresent(annotationClass));
     }
 
