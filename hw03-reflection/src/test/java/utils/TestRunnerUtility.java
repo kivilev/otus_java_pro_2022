@@ -14,14 +14,6 @@ import static utils.ReflectionHelper.getMethodStreamByAnnotation;
 
 public class TestRunnerUtility {
 
-    private static void callAfterMethod(Method methodAfter, Object object) {
-        try {
-            ReflectionHelper.callMethod(object, methodAfter.getName());
-        } catch (Exception e) {
-            System.out.printf("\t\tпроизошло исключение (after): %s%n", e);
-        }
-    }
-
     public static void runClassWithTests(Class<?> testClass) {
         System.out.printf("=== Test class %s ===%n", testClass.getSimpleName());
         if (Arrays.stream(testClass.getMethods()).noneMatch(it -> it.isAnnotationPresent(Test.class))) {
@@ -65,6 +57,14 @@ public class TestRunnerUtility {
     public static void runClassesWithTests(List<Class<?>> testClasses) {
         for (Class<?> testClass : testClasses) {
             runClassWithTests(testClass);
+        }
+    }
+
+    private static void callAfterMethod(Method methodAfter, Object object) {
+        try {
+            ReflectionHelper.callMethod(object, methodAfter.getName());
+        } catch (Exception e) {
+            System.out.printf("\t\tпроизошло исключение (after): %s%n", e);
         }
     }
 }
