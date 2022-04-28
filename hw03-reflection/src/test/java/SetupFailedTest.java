@@ -7,7 +7,7 @@ public class SetupFailedTest {
     @Before
     public void setup() {
         System.out.println("it's setup method");
-        throw new RuntimeException("some exception happens");
+        ///throw new RuntimeException("some exception happens");
     }
 
     @After
@@ -23,6 +23,10 @@ public class SetupFailedTest {
     @Test(displayName = "Обычный пустой тест номер 2, который не выполнится")
     public void simpleTest2() {
         System.out.println("this is simple test 2");
+    }
+
+    public void method1(){
+
     }
 
 }
