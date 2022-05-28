@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow'
+    id 'io.freefair.lombok'
+}
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+task shadowLoggerDemo(type: Jar, dependsOn: shadowJar) {
+    archiveBaseName.set('loggerDemo')
+    manifest {
+        attributes 'Main-Class': 'ru.kivilev.MainApp'
+        attributes 'Premain-Class': 'ru.kivilev.Agent'
+    }
+    from zipTree(shadowJar.archiveFile)
+}
+
+
+tasks.build.dependsOn tasks.shadowLoggerDemo
