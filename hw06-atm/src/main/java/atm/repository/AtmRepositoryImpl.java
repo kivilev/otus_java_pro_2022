@@ -72,19 +72,19 @@ public class AtmRepositoryImpl implements AtmRepository {
     @Override
     public long getBalance() {
         long allSum = 0L;
-        for (var ceil : banknotes.entrySet()) {
-            allSum += ceil.getValue().getTotalBalance();
+        for (var cell : banknotes.entrySet()) {
+            allSum += cell.getValue().getTotalBalance();
         }
         return allSum;
     }
 
     private void putBanknote(BanknoteType bankNoteType, int count) {
-        var atmCeil = banknotes.get(bankNoteType);
-        if (atmCeil == null) {
-            atmCeil = new AtmRepositoryCell(bankNoteType);
-            banknotes.put(bankNoteType, atmCeil);
+        var atmCell = banknotes.get(bankNoteType);
+        if (atmCell == null) {
+            atmCell = new AtmRepositoryCell(bankNoteType);
+            banknotes.put(bankNoteType, atmCell);
         }
-        atmCeil.putBanknote(count);
+        atmCell.putBanknote(count);
     }
 
     private boolean isBanknotesSuitable(long neededSum, int banknoteValue) {
