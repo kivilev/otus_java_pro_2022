@@ -32,7 +32,7 @@ public class AtmRepositoryImpl implements AtmRepository {
             throw new NotEnoughMoneyException();
         }
 
-        final int minBanknoteValue = banknotes.firstEntry().getValue().getBanknoteType().getValue();
+        final int minBanknoteValue = banknotes.firstEntry().getValue().getBanknoteValue();
         if (!isBanknotesSuitable(neededSum, minBanknoteValue)) {
             throw new IncorrectNeededMoneySumException();
         }
@@ -54,7 +54,7 @@ public class AtmRepositoryImpl implements AtmRepository {
         long restSum = neededSum;
         Map<BanknoteType, Integer> popBanknotes = new HashMap<>();
         for (var banknote : banknotes.descendingMap().entrySet()) {
-            var banknoteValue = banknote.getValue().getBanknoteType().getValue();
+            var banknoteValue = banknote.getValue().getBanknoteValue();
             var banknoteCount = banknote.getValue().getBanknoteCount();
 
             final int neededCountBanknotes = (int) (restSum / banknoteValue);

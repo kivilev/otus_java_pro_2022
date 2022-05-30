@@ -35,4 +35,9 @@ public class AtmRepositoryCell {
     public BanknoteType getBanknoteType() {
         return banknoteType;
     }
+
+    public int getBanknoteValue() {
+        return banknoteType.getValue();
+    }
+
 }
