@@ -2,11 +2,11 @@ package atm.model;
 
 import java.security.InvalidParameterException;
 
-public class AtmCeil {
-    private final atm.model.BanknoteType banknoteType;
+public class AtmRepositoryCell {
+    private final BanknoteType banknoteType;
     private int banknoteCount = 0;
 
-    public AtmCeil(BanknoteType banknoteType) {
+    public AtmRepositoryCell(BanknoteType banknoteType) {
         this.banknoteType = banknoteType;
     }
 
@@ -32,7 +32,7 @@ public class AtmCeil {
         return (long) banknoteType.getValue() * banknoteCount;
     }
 
-    public atm.model.BanknoteType getBanknoteType() {
+    public BanknoteType getBanknoteType() {
         return banknoteType;
     }
 }

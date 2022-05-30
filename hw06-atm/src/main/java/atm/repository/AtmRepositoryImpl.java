@@ -2,7 +2,7 @@ package atm.repository;
 
 import atm.exception.IncorrectNeededMoneySumException;
 import atm.exception.NotEnoughMoneyException;
-import atm.model.AtmCeil;
+import atm.model.AtmRepositoryCell;
 import atm.model.BanknoteType;
 
 import java.math.BigDecimal;
@@ -15,7 +15,7 @@ import java.util.TreeMap;
 
 public class AtmRepositoryImpl implements AtmRepository {
 
-    private NavigableMap<BanknoteType, AtmCeil> banknotes = new TreeMap<>(Comparator.comparing(BanknoteType::getValue));
+    private NavigableMap<BanknoteType, AtmRepositoryCell> banknotes = new TreeMap<>(Comparator.comparing(BanknoteType::getValue));
 
     @Override
     public void putBanknotes(Map<BanknoteType, Integer> banknotes) {
@@ -81,7 +81,7 @@ public class AtmRepositoryImpl implements AtmRepository {
     private void putBanknote(BanknoteType bankNoteType, int count) {
         var atmCeil = banknotes.get(bankNoteType);
         if (atmCeil == null) {
-            atmCeil = new AtmCeil(bankNoteType);
+            atmCeil = new AtmRepositoryCell(bankNoteType);
             banknotes.put(bankNoteType, atmCeil);
         }
         atmCeil.putBanknote(count);
