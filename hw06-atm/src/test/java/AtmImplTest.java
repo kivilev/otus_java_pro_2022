@@ -1,8 +1,8 @@
 import atm.exception.IncorrectNeededMoneySumException;
 import atm.exception.NotEnoughMoneyException;
+import atm.model.Atm;
+import atm.model.AtmImpl;
 import atm.model.BanknoteType;
-import atm.repository.AtmRepository;
-import atm.repository.AtmRepositoryImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,16 +16,16 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-class AtmRepositoryImplTest {
+class AtmImplTest {
 
     @Test
     @DisplayName("Хранилище должно возвращать корректный баланс")
     void getBalanceShouldReturnCorrectBalance() {
         long expectedBalance = 100 * 10 + 1000 * 3;
 
-        AtmRepository atmRepository = new AtmRepositoryImpl();
-        atmRepository.putBanknotes(Map.of(BanknoteType.RUB100, 10, BanknoteType.RUB1000, 3));
-        var actualBalance = atmRepository.getBalance();
+        Atm atm = new AtmImpl();
+        atm.putBanknotes(Map.of(BanknoteType.RUB100, 10, BanknoteType.RUB1000, 3));
+        var actualBalance = atm.getBalance();
 
         assertThat(actualBalance).isEqualTo(expectedBalance);
     }
@@ -70,13 +70,13 @@ class AtmRepositoryImplTest {
                                                   Long neededSum,
                                                   Map<BanknoteType, Integer> expectedBanknotes,
                                                   Integer expectedAtmBalance) {
-        AtmRepository atmRepository = new AtmRepositoryImpl();
-        atmRepository.putBanknotes(banknotesInBalance);
+        Atm atm = new AtmImpl();
+        atm.putBanknotes(banknotesInBalance);
 
-        var actualBanknotes = atmRepository.popBanknotes(neededSum);
+        var actualBanknotes = atm.popBanknotes(neededSum);
         Assertions.assertThat(actualBanknotes).isEqualTo(expectedBanknotes);
 
-        var actualAtmBalance = atmRepository.getBalance();
+        var actualAtmBalance = atm.getBalance();
         Assertions.assertThat(actualAtmBalance).isEqualTo(Long.valueOf(expectedAtmBalance));
     }
 
@@ -84,8 +84,8 @@ class AtmRepositoryImplTest {
     @DisplayName("Передача негативной суммы к выдаче приводит к ошибке")
     void popNegativeSumShouldLeadToError() {
         try {
-            AtmRepository atmRepository = new AtmRepositoryImpl();
-            atmRepository.popBanknotes(-1);
+            Atm atm = new AtmImpl();
+            atm.popBanknotes(-1);
             Assertions.failBecauseExceptionWasNotThrown(InvalidParameterException.class);
         } catch (InvalidParameterException ex) {
             Assertions.assertThat(ex).hasNoCause();
@@ -96,9 +96,9 @@ class AtmRepositoryImplTest {
     @DisplayName("Передача суммы большей чем есть в хранилище приводит к ошибке")
     void popSumBiggerThenExistsShouldLeadToError() {
         try {
-            AtmRepository atmRepository = new AtmRepositoryImpl();
-            atmRepository.putBanknotes(Map.of(BanknoteType.RUB100, 1));
-            atmRepository.popBanknotes(200);
+            Atm atm = new AtmImpl();
+            atm.putBanknotes(Map.of(BanknoteType.RUB100, 1));
+            atm.popBanknotes(200);
             Assertions.failBecauseExceptionWasNotThrown(NotEnoughMoneyException.class);
         } catch (NotEnoughMoneyException ex) {
             Assertions.assertThat(ex).hasNoCause();
@@ -109,12 +109,12 @@ class AtmRepositoryImplTest {
     @DisplayName("Передача суммы выдачи не бьющейся по имеющимся банкнотам приводит к ошибке")
     void popSumNotSuitableForExistBanknotesShouldLeadToError() {
         try {
-            AtmRepository atmRepository = new AtmRepositoryImpl();
-            atmRepository.putBanknotes(Map.of(BanknoteType.RUB500, 1));
-            atmRepository.popBanknotes(499);
+            Atm atm = new AtmImpl();
+            atm.putBanknotes(Map.of(BanknoteType.RUB500, 1));
+            atm.popBanknotes(499);
             Assertions.failBecauseExceptionWasNotThrown(IncorrectNeededMoneySumException.class);
         } catch (IncorrectNeededMoneySumException ex) {
-            Assertions.assertThat(ex).hasNoCause();
+            Assertions.assertThat(ex).hasMessage("Нет подходящих банкнот для выдачи суммы");
         }
     }
 }

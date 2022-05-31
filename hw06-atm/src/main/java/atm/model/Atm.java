@@ -1,10 +1,10 @@
-package atm.repository;
+package atm.model;
 
 import atm.model.BanknoteType;
 
 import java.util.Map;
 
-public interface AtmRepository {
+public interface Atm {
 
     void putBanknotes(Map<BanknoteType, Integer> banknotes);
 

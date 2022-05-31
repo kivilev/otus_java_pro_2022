@@ -2,11 +2,11 @@ package atm.model;
 
 import java.security.InvalidParameterException;
 
-public class AtmRepositoryCell {
+public class AtmCell {
     private final BanknoteType banknoteType;
     private int banknoteCount = 0;
 
-    public AtmRepositoryCell(BanknoteType banknoteType) {
+    public AtmCell(BanknoteType banknoteType) {
         this.banknoteType = banknoteType;
     }
 

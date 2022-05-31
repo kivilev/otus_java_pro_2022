@@ -1,9 +1,7 @@
-package atm.repository;
+package atm.model;
 
 import atm.exception.IncorrectNeededMoneySumException;
 import atm.exception.NotEnoughMoneyException;
-import atm.model.AtmRepositoryCell;
-import atm.model.BanknoteType;
 
 import java.math.BigDecimal;
 import java.security.InvalidParameterException;
@@ -13,9 +11,9 @@ import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
-public class AtmRepositoryImpl implements AtmRepository {
+public class AtmImpl implements Atm {
 
-    private NavigableMap<BanknoteType, AtmRepositoryCell> banknotes = new TreeMap<>(Comparator.comparing(BanknoteType::getValue));
+    private NavigableMap<BanknoteType, AtmCell> banknotes = new TreeMap<>(Comparator.comparing(BanknoteType::getValue));
 
     @Override
     public void putBanknotes(Map<BanknoteType, Integer> banknotes) {
@@ -34,7 +32,7 @@ public class AtmRepositoryImpl implements AtmRepository {
 
         final int minBanknoteValue = banknotes.firstEntry().getValue().getBanknoteValue();
         if (!isBanknotesSuitable(neededSum, minBanknoteValue)) {
-            throw new IncorrectNeededMoneySumException();
+            throw new IncorrectNeededMoneySumException("Нет подходящих банкнот для выдачи суммы");
         }
 
         Map<BanknoteType, Integer> popBanknotes = findSuitableBanknotes(neededSum);
@@ -81,7 +79,7 @@ public class AtmRepositoryImpl implements AtmRepository {
     private void putBanknote(BanknoteType bankNoteType, int count) {
         var atmCell = banknotes.get(bankNoteType);
         if (atmCell == null) {
-            atmCell = new AtmRepositoryCell(bankNoteType);
+            atmCell = new AtmCell(bankNoteType);
             banknotes.put(bankNoteType, atmCell);
         }
         atmCell.putBanknote(count);
