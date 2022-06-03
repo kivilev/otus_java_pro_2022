@@ -29,6 +29,7 @@ allprojects {
                 mavenBom("org.springframework.boot:spring-boot-dependencies:2.6.6")
             }
             dependency "com.google.guava:guava:${Versions.guava}"
+
         }
     }
 }
