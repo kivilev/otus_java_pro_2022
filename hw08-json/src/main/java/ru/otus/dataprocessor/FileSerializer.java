@@ -21,8 +21,7 @@ public class FileSerializer implements Serializer {
     public void serialize(Map<String, Double> data) {
         //формирует результирующий json и сохраняет его в файл
         try (var buffer = new BufferedWriter(new FileWriter(fullFileName))) {
-            Map<String, Double> orderedMap = new TreeMap<>(data);// TODO: переделать на streams
-            String jsonResult = objectMapper.writeValueAsString(orderedMap);
+            String jsonResult = objectMapper.writeValueAsString(data);
             buffer.write(jsonResult);
         } catch (IOException e) {
             e.printStackTrace();
