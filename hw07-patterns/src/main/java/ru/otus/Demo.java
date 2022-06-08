@@ -34,11 +34,5 @@ public class Demo {
         System.out.println("result:" + result);
 
         complexProcessor.removeListener(listenerPrinter);
-
-        DateTimeProvider dateTimeProvider = new DateTimeProvider(
-                LocalDateTime.of(2022, 02, 24, 4, 01, 00));
-        ProcessorCheckEvenSecondMessage processorCheckEvenSecondMessage = new ProcessorCheckEvenSecondMessage(dateTimeProvider);
-        processorCheckEvenSecondMessage.process(message);
-
     }
 }
