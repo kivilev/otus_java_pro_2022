@@ -3,10 +3,13 @@ package ru.otus;
 import ru.otus.handler.ComplexProcessor;
 import ru.otus.listener.ListenerPrinterConsole;
 import ru.otus.model.Message;
+import ru.otus.processor.DateTimeProvider;
 import ru.otus.processor.LoggerProcessor;
+import ru.otus.processor.ProcessorCheckEvenSecondMessage;
 import ru.otus.processor.ProcessorConcatFields;
 import ru.otus.processor.ProcessorUpperField10;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Demo {
@@ -14,7 +17,8 @@ public class Demo {
         var processors = List.of(new ProcessorConcatFields(),
                 new LoggerProcessor(new ProcessorUpperField10()));
 
-        var complexProcessor = new ComplexProcessor(processors, ex -> {});
+        var complexProcessor = new ComplexProcessor(processors, ex -> {
+        });
         var listenerPrinter = new ListenerPrinterConsole();
         complexProcessor.addListener(listenerPrinter);
 
@@ -30,5 +34,11 @@ public class Demo {
         System.out.println("result:" + result);
 
         complexProcessor.removeListener(listenerPrinter);
+
+        DateTimeProvider dateTimeProvider = new DateTimeProvider(
+                LocalDateTime.of(2022, 02, 24, 4, 01, 00));
+        ProcessorCheckEvenSecondMessage processorCheckEvenSecondMessage = new ProcessorCheckEvenSecondMessage(dateTimeProvider);
+        processorCheckEvenSecondMessage.process(message);
+
     }
 }
