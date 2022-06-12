@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow'
+}
+
+dependencies {
+    implementation 'org.ow2.asm:asm-commons'
+}
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+task shadowProxyLog(type: Jar, dependsOn: shadowJar) {
+    archiveBaseName.set('proxyLog')
+    manifest {
+        attributes 'Main-Class': 'ru.kivilev.MainApp'
+        attributes 'Premain-Class': 'ru.kivilev.MyAgent'
+    }
+    from zipTree(shadowJar.archiveFile)
+}
+
+tasks.build.dependsOn tasks.shadowProxyLog
