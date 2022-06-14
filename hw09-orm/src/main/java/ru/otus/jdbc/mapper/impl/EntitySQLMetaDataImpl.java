@@ -38,12 +38,12 @@ public class EntitySQLMetaDataImpl<T> implements EntitySQLMetaData {
     @Override
     public String getInsertSql() {
         List<String> paramValues =
-                Collections.nCopies(entityClassMetaData.getAllFields().size(), "?");
+                Collections.nCopies(entityClassMetaData.getFieldsWithoutId().size(), "?");
 
         return String.format(
                 "insert into %s (%s) values (%s)",
                 entityClassMetaData.getName(),
-                getJoinedFieldNames(entityClassMetaData.getAllFields()),
+                getJoinedFieldNames(entityClassMetaData.getFieldsWithoutId()),
                 String.join(", ", paramValues)
         );
     }

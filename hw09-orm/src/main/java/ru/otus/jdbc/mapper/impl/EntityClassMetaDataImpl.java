@@ -1,6 +1,5 @@
 package ru.otus.jdbc.mapper.impl;
 
-import lombok.SneakyThrows;
 import ru.otus.crm.annotation.Id;
 import ru.otus.jdbc.mapper.EntityClassMetaData;
 
@@ -24,9 +23,12 @@ public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T> {
     }
 
     @Override
-    @SneakyThrows
     public Constructor<T> getConstructor() {
-        return genericClass.getConstructor();
+        try {
+            return genericClass.getConstructor();
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException();
+        }
     }
 
     @Override

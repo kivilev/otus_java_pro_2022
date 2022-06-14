@@ -3,8 +3,8 @@ package ru.otus.crm.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.core.repository.DataTemplate;
-import ru.otus.crm.model.Client;
 import ru.otus.core.sessionmanager.TransactionRunner;
+import ru.otus.crm.model.Client;
 
 import java.util.List;
 import java.util.Optional;
@@ -50,6 +50,6 @@ public class DbServiceClientImpl implements DBServiceClient {
             var clientList = dataTemplate.findAll(connection);
             log.info("clientList:{}", clientList);
             return clientList;
-       });
+        });
     }
 }
