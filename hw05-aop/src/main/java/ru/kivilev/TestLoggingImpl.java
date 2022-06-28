@@ -6,7 +6,7 @@ public class TestLoggingImpl implements TestLogging {
 
     @Log
     public void calculation(int param1) {
-        System.out.println("Calculation. one param.");
+        System.out.println("Calculation (LOG). one param.");
     }
 
     public void calculation(int param1, int param2) {
@@ -15,7 +15,7 @@ public class TestLoggingImpl implements TestLogging {
 
     @Log
     public void calculation(int param1, int param2, String param3) {
-        System.out.println("Calculation. three param.");
+        System.out.println("Calculation (LOG). three param.");
     }
 
     public void calculation(int param1, int param2, String param3, String param4) {

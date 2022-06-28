@@ -5,7 +5,7 @@ package ru.kivilev;
 * */
 public class MainApp {
     public static void main(String[] args) {
-        TestLogging testLogging = new TestLoggingImpl();
+        TestLogging testLogging = Ioc.createTestLoggingClass();
         testLogging.calculation(1);
         testLogging.calculation(1, 2);
         testLogging.calculation(1, 2, "str3");
