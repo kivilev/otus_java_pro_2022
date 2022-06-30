@@ -52,6 +52,7 @@ public class DbServiceManagerImpl implements DBServiceManager {
             var managerOptional = Optional.ofNullable(cache.get(String.valueOf(no)));
             if (managerOptional.isEmpty()) {
                 managerOptional = managerDataTemplate.findById(connection, no);
+                managerOptional.ifPresent(manager -> cache.put(String.valueOf(no), manager));
             }
             log.info("manager: {}", managerOptional);
             return managerOptional;

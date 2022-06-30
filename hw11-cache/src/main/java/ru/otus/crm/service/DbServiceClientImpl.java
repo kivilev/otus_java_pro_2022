@@ -51,6 +51,8 @@ public class DbServiceClientImpl implements DBServiceClient {
             var clientOptional = Optional.ofNullable(cache.get(String.valueOf(id)));
             if (clientOptional.isEmpty()) {
                 clientOptional = dataTemplate.findById(connection, id);
+                clientOptional.ifPresent(client -> cache.put(String.valueOf(id), client));
+
             }
             log.info("client: {}", clientOptional);
             return clientOptional;
