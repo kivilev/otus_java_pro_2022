@@ -3,6 +3,8 @@ package ru.otus;
 import ru.otus.appcontainer.AppComponentsContainerImpl;
 import ru.otus.appcontainer.api.AppComponentsContainer;
 import ru.otus.config.AppConfig;
+import ru.otus.config.AppConfig1;
+import ru.otus.config.AppConfig2;
 import ru.otus.services.GameProcessor;
 import ru.otus.services.GameProcessorImpl;
 
@@ -23,20 +25,22 @@ PS Приложение представляет собой тренажер т�
 public class App {
 
     public static void main(String[] args) throws Exception {
-        // Опциональные варианты
-        //AppComponentsContainer container = new AppComponentsContainerImpl(AppConfig1.class, AppConfig2.class);
+        // Опциональные варианты - РАБОТАЕТ
+        AppComponentsContainer container2 = new AppComponentsContainerImpl(AppConfig1.class, AppConfig2.class);
 
-        // Тут можно использовать библиотеку Reflections (см. зависимости)
-        //AppComponentsContainer container = new AppComponentsContainerImpl("ru.otus.config");
+        // Тут можно использовать библиотеку Reflections (см. зависимости) - РАБОТАЕТ
+        // AppComponentsContainer container3 = new AppComponentsContainerImpl("ru.otus.config");
 
-        // Обязательный вариант
+        // Обязательный вариант - РАБОТАЕТ
         AppComponentsContainer container = new AppComponentsContainerImpl(AppConfig.class);
 
-        // Приложение должно работать в каждом из указанных ниже вариантов
+        // Приложение должно работать в каждом из указанных ниже вариантов - РАБОТАЮТ ВСЕ ВАРИАНТЫ
         GameProcessor gameProcessor = container.getAppComponent(GameProcessor.class);
-        //GameProcessor gameProcessor = container.getAppComponent(GameProcessorImpl.class);
-        //GameProcessor gameProcessor = container.getAppComponent("gameProcessor");
+        GameProcessor gameProcessor2 = container2.getAppComponent(GameProcessorImpl.class);
+        GameProcessor gameProcessor3 = container.getAppComponent("gameProcessor");
 
         gameProcessor.startGame();
+        gameProcessor2.startGame();
+        gameProcessor3.startGame();
     }
 }
