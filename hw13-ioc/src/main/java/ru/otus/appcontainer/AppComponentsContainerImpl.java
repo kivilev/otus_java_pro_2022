@@ -82,8 +82,6 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
     }
 
     private void processConfig(Class<?> configClass) {
-        checkConfigClass(configClass);
-
         try {
             var configObject = configClass.getDeclaredConstructor().newInstance();
             var methodList = getSortedMethodsByAnnotationOrder(configClass);
