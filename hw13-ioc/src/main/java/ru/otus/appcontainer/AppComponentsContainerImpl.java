@@ -36,11 +36,10 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
     public <C> C getAppComponent(Class<C> componentClass) {
         C component = (C) appComponentsByClass.get(componentClass);
         if (component == null) {
-            var implementedInterfaces = componentClass.getInterfaces();
-            for (var implementedInterface : implementedInterfaces) {
-                var object = appComponentsByClass.get(implementedInterface);
-                if (object != null) {
-                    component = (C) object;
+            for (var appComponentEntrySet : appComponentsByClass.entrySet()) {
+                if (componentClass.isAssignableFrom(appComponentEntrySet.getKey())
+                        || appComponentEntrySet.getKey().isAssignableFrom(componentClass)) {
+                    component = (C) appComponentEntrySet.getValue();
                     break;
                 }
             }
@@ -87,7 +86,6 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
             var methodList = getSortedMethodsByAnnotationOrder(configClass);
 
             for (var method : methodList) {
-                var returnedClass = method.getReturnType();
                 var componentName = method.getAnnotation(AppComponent.class).name();
 
                 if (appComponentsByName.containsKey(componentName)) {
@@ -95,6 +93,7 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
                 }
 
                 Object createdComponent = createComponent(configObject, method);
+                var returnedClass = createdComponent.getClass();
 
                 appComponentsByName.put(componentName, createdComponent);
                 appComponentsByClass.put(returnedClass, createdComponent);
@@ -114,10 +113,7 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
     private Object createComponent(Object configObject, Method method) throws IllegalAccessException, InvocationTargetException {
         List<Object> argList = new ArrayList<>();
         for (var argument : method.getParameterTypes()) {
-            if (!appComponentsByClass.containsKey(argument)) {
-                throw new ComponentNotFoundException(String.format("Component with class %s not found", argument.getSimpleName()));
-            }
-            argList.add(appComponentsByClass.get(argument));
+            argList.add(getAppComponent(argument));
         }
         return method.invoke(configObject, argList.toArray());
     }
