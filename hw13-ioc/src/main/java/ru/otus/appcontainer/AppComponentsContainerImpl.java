@@ -21,8 +21,9 @@ import static org.reflections.scanners.Scanners.TypesAnnotated;
 
 public class AppComponentsContainerImpl implements AppComponentsContainer {
 
+    private final List<Object> appComponents = new ArrayList<>();
     private final Map<String, Object> appComponentsByName = new HashMap<>();
-    private final Map<Class<?>, Object> appComponentsByClass = new HashMap<>();
+
 
     public AppComponentsContainerImpl(Class<?>... initialConfigClasses) {
         processConfigs(initialConfigClasses);
@@ -34,21 +35,14 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
 
     @Override
     public <C> C getAppComponent(Class<C> componentClass) {
-        C component = (C) appComponentsByClass.get(componentClass);
-        if (component == null) {
-            for (var appComponentEntrySet : appComponentsByClass.entrySet()) {
-                if (componentClass.isAssignableFrom(appComponentEntrySet.getKey())
-                        || appComponentEntrySet.getKey().isAssignableFrom(componentClass)) {
-                    component = (C) appComponentEntrySet.getValue();
-                    break;
-                }
-            }
-        }
-
-        if (component == null) {
+        var foundedComponent = appComponents.stream()
+                .filter(component -> componentClass.equals(component.getClass())
+                        || componentClass.isAssignableFrom(component.getClass())
+                        || component.getClass().isAssignableFrom(componentClass)).findFirst();
+        if (foundedComponent.isEmpty()) {
             throw new ComponentNotFoundException(String.format("Component with class %s not found", componentClass.getSimpleName()));
         }
-        return component;
+        return (C) foundedComponent.get();
     }
 
     @Override
@@ -96,7 +90,7 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
                 var returnedClass = createdComponent.getClass();
 
                 appComponentsByName.put(componentName, createdComponent);
-                appComponentsByClass.put(returnedClass, createdComponent);
+                appComponents.add(createdComponent);
             }
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
@@ -111,11 +105,8 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
     }
 
     private Object createComponent(Object configObject, Method method) throws IllegalAccessException, InvocationTargetException {
-        List<Object> argList = new ArrayList<>();
-        for (var argument : method.getParameterTypes()) {
-            argList.add(getAppComponent(argument));
-        }
-        return method.invoke(configObject, argList.toArray());
+        var arguments = Arrays.stream(method.getParameterTypes()).map(this::getAppComponent).toArray();
+        return method.invoke(configObject, arguments);
     }
 
 
