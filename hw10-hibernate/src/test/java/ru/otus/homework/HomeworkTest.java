@@ -11,10 +11,12 @@ import org.hibernate.engine.jdbc.spi.SqlStatementLogger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.otus.crm.model.Address;
 import ru.otus.crm.model.Client;
+import ru.otus.crm.model.Phone;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -28,7 +30,6 @@ class HomeworkTest {
 
     // Это надо раскомментировать, у выполненного ДЗ, все тесты должны проходить
     // Кроме удаления комментирования, тестовый класс менять нельзя
-/*
     @BeforeEach
     public void setUp() {
         makeTestDependencies();
@@ -49,7 +50,7 @@ class HomeworkTest {
         assertThat(tables).hasSize(3);
     }
 
-        @Test
+    @Test
     public void testHomeworkRequirementsForUpdatesCount() {
         applyCustomSqlStatementLogger(new SqlStatementLogger(true, false, false, 0) {
             @Override
@@ -60,7 +61,7 @@ class HomeworkTest {
         });
 
         var client = new Client(null, "Vasya", new Address(null, "AnyStreet"),
-            List.of(new Phone(null, "13-555-22"), new Phone(null, "14-666-333")));
+                List.of(new Phone(null, "13-555-22"), new Phone(null, "14-666-333")));
         try (var session = sessionFactory.openSession()) {
             session.getTransaction().begin();
             session.persist(client);
@@ -70,8 +71,8 @@ class HomeworkTest {
 
             var loadedClient = session.find(Client.class, 1L).clone();
             assertThat(loadedClient)
-                .usingRecursiveComparison()
-                .isEqualTo(client);
+                    .usingRecursiveComparison()
+                    .isEqualTo(client);
         }
     }
 
@@ -116,5 +117,4 @@ class HomeworkTest {
             e.printStackTrace();
         }
     }
-*/
 }
