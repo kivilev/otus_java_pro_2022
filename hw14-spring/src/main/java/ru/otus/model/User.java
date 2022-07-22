@@ -1,7 +1,12 @@
 package ru.otus.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
+
+@Table("users")
 public class User {
 
+    @Id
     private final long id;
     private final String name;
     private final String login;
@@ -29,6 +34,4 @@ public class User {
     public String getPassword() {
         return password;
     }
-
-
 }
