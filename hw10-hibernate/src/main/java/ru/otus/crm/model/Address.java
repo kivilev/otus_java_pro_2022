@@ -46,7 +46,7 @@ public class Address implements Cloneable {
     }
 
     @Override
-    protected Address clone() throws CloneNotSupportedException {
-        return (Address) super.clone();
+    protected Address clone() {
+        return new Address(id, street);
     }
 }

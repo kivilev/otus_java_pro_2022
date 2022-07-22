@@ -65,7 +65,7 @@ public class Phone implements Cloneable {
     }
 
     @Override
-    protected Phone clone() throws CloneNotSupportedException {
-        return new Phone(this.id, this.phone, this.client.clone());
+    protected Phone clone() {
+        return new Phone(this.id, this.phone, this.client);
     }
 }

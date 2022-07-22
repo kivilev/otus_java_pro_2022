@@ -31,7 +31,7 @@ public class Client implements Cloneable {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToMany(mappedBy = "client",  fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Phone> phoneList = new ArrayList<>();
 
     public Client() {
@@ -52,19 +52,13 @@ public class Client implements Cloneable {
         this.name = name;
         this.address = address;
         this.phoneList = phoneList;
+        phoneList.forEach(p -> p.setClient(this));
     }
 
     @Override
     public Client clone() {
-        try {
-            var client = new Client(this.id, this.name);
-            if (this.address != null) client.setAddress(this.address.clone());
-            client.setPhoneList(new ArrayList<>(this.phoneList));
-            return client;
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+        var phoneListCloned = this.phoneList.stream().map(Phone::clone).toList();
+        return new Client(this.id, this.name, this.address.clone(), phoneListCloned);
     }
 
     public Long getId() {
