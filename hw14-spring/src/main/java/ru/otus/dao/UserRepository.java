@@ -8,7 +8,6 @@ import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<User, Long> {
 
-
     Optional<User> findById(Long id);
 
     @Query("select * from users order by random() limit 1")

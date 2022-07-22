@@ -8,19 +8,15 @@ targetCompatibility = JavaVersion.VERSION_17
 dependencies {
     implementation('ch.qos.logback:logback-classic:1.2.11')
 
-    implementation('org.springframework.boot:spring-boot-starter-web:2.7.0')
-    implementation('org.springframework.boot:spring-boot-starter-thymeleaf:2.7.0')
-    implementation('org.springframework.boot:spring-boot-starter-test:2.7.0')
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
+    implementation('org.springframework.boot:spring-boot-starter-test')
 
-    implementation('com.google.code.gson:gson:2.9.0')
-    implementation 'org.flywaydb:flyway-core:8.5.12'
-    implementation 'org.postgresql:postgresql:42.3.6'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc:2.7.0'
-/*
-    testImplementation("org.junit.jupiter:junit-jupiter-engine")
-    testImplementation("org.junit.jupiter:junit-jupiter-params")
-    testImplementation("org.assertj:assertj-core")
-    testImplementation("org.mockito:mockito-junit-jupiter")*/
+    implementation('com.google.code.gson:gson')
+    implementation('org.flywaydb:flyway-core')
+    implementation('org.postgresql:postgresql')
+    implementation('org.springframework.boot:spring-boot-starter-data-jdbc')
+    implementation('com.google.code.findbugs:jsr305')
 }
 
 test {
